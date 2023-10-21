@@ -15,6 +15,10 @@ class Category extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
+            'user_id' => [
+                'type'       => 'INT',
+                'unsigned'       => true,
+            ],
             'title' => [
                 'type' => 'varchar',
                 'constraint' => 255,
