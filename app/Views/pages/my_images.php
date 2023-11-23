@@ -21,6 +21,8 @@
                         <th>File Size</th>
                         <th>Category</th>
                         <th>Description</th>
+                        <th>Downloaded</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -64,6 +66,14 @@ $(document).ready(function() {
             {
                 data: 'description',
                 name: 'description'
+            },
+            {
+                data: 'downloaded',
+                name: 'downloaded'
+            },
+            {
+                data: 'status',
+                name: 'status'
             },
             {
                 data: 'action',

@@ -32,10 +32,10 @@
                                 <div class="form-group">
                                     <label for="">Category</label>
                                     <select class="custom-select" name="category" id="category">
-                                        <option ></option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option></option>
+                                        <?php foreach ($category as $item) : ?>
+                                            <option value="<?= $item->title ?>"><?= $item->title ?></option>
+                                        <?php endforeach ?>
                                     </select>
                                 </div>
                             </div>
@@ -73,7 +73,8 @@
 
     $("#category").select2({
         theme: 'bootstrap4',
-        tags: true
+        tags: true,
+        placeholder: "Select a Category or create one",
     });
     
     Dropzone.options.imageUpload = {
@@ -122,11 +123,17 @@
             type: 'POST',
             data: formData,
             success: function (data) {
+                window.onbeforeunload = null;
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Berhasil',
                     text: 'Data berhasil disimpan',
                 })
+
+                setTimeout(function () {
+                    window.location.href = "<?= base_url('image') ?>";
+                }, 500);
             },
             beforeSend: function (data) {
                 Swal.fire({

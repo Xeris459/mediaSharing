@@ -7,7 +7,7 @@
             <img src="<?= site_url('logo_dp.png') ?>" alt="">
         </div>
     </div>
-      <img class="" src="https://scontent-sin6-4.xx.fbcdn.net/v/t39.30808-6/370907745_2280263812165901_1708711434859393315_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=52f669&_nc_eui2=AeGD-arvI4KNy9DrzUZhwwg-e9FLPHBnSQ570Us8cGdJDg48Qx6HZcV4AelHJegAhJDm_aDNgVVci-pNS5mgUbCt&_nc_ohc=9FMnkPzJR20AX-V-k9T&_nc_ht=scontent-sin6-4.xx&oh=00_AfBzzEJYzoaoDzqShRXozip4N6XTNDRwloUiRDtO9YvZgw&oe=651DAD48" alt="" srcset="">
+      <img class="" src="<?= site_url('IMG_1475.JPG') ?>" alt="" srcset="">
 </div>
 
 <?= $this->section('css') ;?>

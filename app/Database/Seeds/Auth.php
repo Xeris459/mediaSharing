@@ -16,11 +16,13 @@ class Auth extends Seeder
             'username' => 'admin test',
             'email'    => 'admin@gmail.com',
             'password' => 'admin123',
+            'image' => "https://placehold.co/800?text=Photo+Profile&font=roboto"
         ]);
         $users->save($user);
 
         $user = $users->findById($users->getInsertID());
 
-        $users->addToDefaultGroup($user);
+        $user->addGroup('Admin');
+        $user->activate();
     }
 }

@@ -21,7 +21,7 @@ if(!function_exists('button')) {
      * title dari tombol
      * 
      * @param string $icon
-     * icon dari tombol dengan menggunakan fontawoseme 5
+     * icon dari tombol dengan menggunakan fontawesome 5
      * 
      * @param string $pageName
      * nama page yang muncul di pesan sweatalert
@@ -44,6 +44,37 @@ if(!function_exists('button')) {
     }
 }
 
+if(!function_exists('linkButton')) {
+    /**
+     * membuat link untuk template datatables
+     *
+     * @param integer $id
+     * id tombol yang akan di gunakan untuk trigger function
+     * 
+     * @param string $title
+     * title dari tombol
+     * 
+     * @param string $icon
+     * icon dari tombol dengan menggunakan fontawesome 5
+     * 
+     * @param string $pageName
+     * nama page yang muncul di pesan sweatalert
+     * 
+     * @param string $class nama class yang akan trigger sweatalert atau custom class
+     * 
+     * __sweatalert class__
+     * - delete
+     * - edit
+     * 
+     * @return string
+     */
+    function linkButton($id, $title, $icon, $pageName, $class){
+        $link = site_url($pageName . "/edit/" . $id);
+
+        return "<a href=' $link' class='dropdown-item $class'><span class='fa $icon'></span> $title</a>";
+    }
+}
+
 if(!function_exists('triggerModalButton')) {
      /**
      * membuat button untuk template datatables delete
@@ -55,7 +86,7 @@ if(!function_exists('triggerModalButton')) {
      * title dari tombol
      * 
      * @param string $icon
-     * icon dari tombol dengan menggunakan fontawoseme 5
+     * icon dari tombol dengan menggunakan fontawesome 5
      * 
      * @param string $pageName
      * nama page yang muncul di pesan sweatalert

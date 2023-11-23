@@ -125,3 +125,169 @@ let changeStatus = (elem, id) => {
     });
 }
 
+
+let approveCurrentRow = (elem, id) => {
+    const Loc = window.location.pathname.split('/')[1]
+    const type  = $(elem).data('type');
+    const message = `Are you sure you want to approve this request?`
+
+    Swal.fire({
+        title: `${message}`,
+        text: "You will not be able to restore it once it has been approved!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'I know, approve it!', 
+        cancelButtonText: "cancel"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "PUT",
+                url: `${location.origin}/${Loc.toLowerCase()}/accept/${id}`,
+                dataType: "JSON",
+                success: function (res) {
+                        if(res.error == null){
+                            Swal.fire({
+                                icon: 'success',
+                                title: `Image approved`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            
+                            myTable.row($(elem).parents("tr")).remove().draw();
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: res.messages.error,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                },
+                error: function(data) {
+                    var text = '';
+                    $.map(data.responseJSON.messages, function(val) {
+                        text +=
+                            `<div class="card"><div class="card-body">${val}</div></div><br>`;
+                    });
+
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'ops..',
+                        html: text,
+                        showConfirmButton: false,
+                        timer: 8000
+                    })
+                },
+                complete: function(data) {
+                    if (data.status == 500) {
+                        console.log(data)
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'server time out: <br>' + data.responseJSON
+                                .message,
+                            showConfirmButton: false,
+                            timer: 8000
+                        })
+                    }
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Please Wait !',
+                        html: 'trying process data',
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading()
+                        },
+                    });
+                }
+            });
+        }
+    });
+}
+
+let rejectCurrentRow = (elem, id) => {
+    const Loc = window.location.pathname.split('/')[1]
+    const type  = $(elem).data('type');
+    const message = `Are you sure you want to reject this request?`
+
+    Swal.fire({
+        title: `${message}`,
+        text: "You can still approve it in the future!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'I know, reject it!', 
+        cancelButtonText: "cancel"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "PUT",
+                url: `${location.origin}/${Loc.toLowerCase()}/reject/${id}`,
+                dataType: "JSON",
+                success: function (res) {
+                        if(res.error == null){
+                            Swal.fire({
+                                icon: 'success',
+                                title: `Image rejected`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            
+                            myTable.row($(elem).parents("tr")).remove().draw();
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: res.messages.error,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                },
+                error: function(data) {
+                    var text = '';
+                    $.map(data.responseJSON.messages, function(val) {
+                        text +=
+                            `<div class="card"><div class="card-body">${val}</div></div><br>`;
+                    });
+
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'ops..',
+                        html: text,
+                        showConfirmButton: false,
+                        timer: 8000
+                    })
+                },
+                complete: function(data) {
+                    if (data.status == 500) {
+                        console.log(data)
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'server time out: <br>' + data.responseJSON
+                                .message,
+                            showConfirmButton: false,
+                            timer: 8000
+                        })
+                    }
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Please Wait !',
+                        html: 'trying process data',
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading()
+                        },
+                    });
+                }
+            });
+        }
+    });
+}

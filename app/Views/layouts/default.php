@@ -23,8 +23,6 @@
     <main>
         <?= $this->renderSection('content') ?>
     </main>
-
-    <?= $this->include('components/TheFooter') ?>
-    <?= $this->include('components/TheScripts') ?>
 </body>
+<?= $this->include('components/TheScripts') ?>
 </html>

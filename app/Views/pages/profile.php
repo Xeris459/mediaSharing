@@ -1,215 +1,160 @@
-<?= $this->extend('backend/layout/content'); ?>
-
+<?= $this->extend('layouts/dashboard'); ?>
 
 <?=  $this->section('content') ?>
 
-<!-- modal -->
-<!-- Button trigger modal -->
-<button type="button" class="btn tambah btn-primary mb-3" data-toggle="modal" data-target="#modelId">
-    Tambah <?= $page ?>
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    Tambah <?= $page ?>
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="row mt-sm-4">
+    <div class="col-12 col-md-12 col-lg-5">
+    <div class="card profile-widget">
+        <div class="profile-widget-header">
+            <img alt="image" src="<?= $auth->getImage() ?>" class="rounded-circle profile-widget-picture">
+            <div class="profile-widget-items">
+                <div class="profile-widget-item">
+                    <div class="profile-widget-item-label">Total Image</div>
+                    <div class="profile-widget-item-value"><?= $totalImages ?></div>
+                </div>
+                <div class="profile-widget-item">
+                    <div class="profile-widget-item-label">Category Created</div>
+                    <div class="profile-widget-item-value"><?= $totalCategories ?></div>
+                </div>
             </div>
-
-            <form method="POST" action="" id="form" enctype="multipart/form-data">
-                <div class='modal-body' id="loading">
-                    <div class="lds-dual-ring"></div>
+        </div>
+        <div class="profile-widget-description">
+            <div class="profile-widget-name d-flex align-items-center font-weight-bold">
+                <?= $auth->username ?>
+                <div class="text-muted d-inline font-weight-normal d-flex align-items-center">
+                    <div class="slash"></div>
+                    <?= join(',', $auth->getGroups()) ?>
                 </div>
-
-                <input type="hidden" name="id" id="id">
-                <?= csrf_field(); ?>
-
-                <div class="modal-body" id="isi">
-
-                    <img src="" alt="" sizes="500px" srcset="" id="img" style="max-width: 100%;">
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="">Photo Profile</label>
-                                <input required type="file" class="form-control-file" name="file" id="banner"
-                                    placeholder="" aria-describedby="fileHelpId">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-6 col-dm-12">
-                            <div class="form-group">
-                                <label for="">Full Name</label>
-                                <input type="text" class="form-control" name="name" id="name" aria-describedby="helpId"
-                                    placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-6 col-dm-12">
-                            <div class="form-group">
-                                <label for="">Job</label>
-                                <input type="text" class="form-control" name="job" id="job" aria-describedby="helpId"
-                                    placeholder="">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="">Caption</label>
-                                <textarea class="form-control" name="caption" id="caption" rows="10"
-                                    required></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" name="submit" value="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
-
-
-<!-- tabel -->
-<div class="card shadow mb-4">
-
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Manage <?= $page ?></h6>
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th style="width:50px">ID Profile</th>
-                        <th style="max-width:150px; width:100px">Profil</th>
-                        <th>Name</th>
-                        <th>Deskription</th>
-                        <th style="width:100px">Job</th>
-                        <th style="width:150px">Created</th>
-                        <th style="width:50px">Status</th>
-                        <th style="width:50px">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <div class="col-12 col-md-12 col-lg-7">
+    <div class="card">
+        <form method="post" action="<?= site_url('profile/update') ?>" class="needs-validation" novalidate="" enctype="multipart/form-data">
+          <div class="card-header">
+              <h4>Edit Profile</h4>
+          </div>
+          <div class="card-body">
+              <div class="row">
+                  <div class="col-12">
+                      <div class="form-group">
+                          <label for="">Avatar</label>
+                          <input type="file" class="form-control-file" name="image" id="image"
+                              placeholder="" aria-describedby="fileHelpId">
+                      </div>
+                  </div>
+              </div>
 
-                </tbody>
-            </table>
-        </div>
+              <input type="hidden" name="id" value="<?= $auth->id ?>">
+
+              <div class="row">
+                  <div class="form-group col-md-6 col-12">
+                      <label>Username</label>
+                      <input type="text" name="username" class="form-control" value="<?= $auth->username ?>" required="">
+                  </div>
+                  <div class="form-group col-md-6 col-12">
+                      <label>Email</label>
+                      <input type="email" name="email" class="form-control" value="<?= $auth->email ?>" required="">
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="form-group col-md-6 col-12">
+                      <label>Password</label>
+                      <input type="password" name="password" class="form-control">
+                      <small>Please leave this one if you are not intended to change password for this user</small>
+                  </div>
+                  <div class="form-group col-md-6 col-12">
+                      <label>Confirmation Password</label>
+                      <input type="password" name="confirm_password" class="form-control">
+                  </div>
+              </div>
+          </div>
+          <div class="card-footer text-right">
+              <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
     </div>
 </div>
+<?= $this->endSection() ?>
 
-<script>
-$('#loading').hide(0);
-//change back
-$('.tambah').on('click', () => {
-    $('#img').hide(0);
-    $('#img_mobile').hide(0);
-    $('#loading').hide(0);
-    $('#isi').show(0);
-    $('.modal-title').html('Tambah <?= ucfirst($page) ?>');
-    $('#form').attr('action', '<?= base_url() ?>/admin/profile/save');
+<?= $this->section('css') ?>
+<style>
+.slash:after {
+  content: " / ";
+  padding: 0 10px;
+}
+.profile-widget {
+  margin-top: 35px;
+}
+.profile-widget .profile-widget-picture {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+  float: left;
+  width: 100px;
+  margin: -35px -5px 0 30px;
+  position: relative;
+  z-index: 1;
+}
+.profile-widget .profile-widget-header {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.profile-widget .profile-widget-items {
+  display: flex;
+  position: relative;
+}
+.profile-widget .profile-widget-items:after {
+  content: " ";
+  position: absolute;
+  bottom: 0;
+  left: -25px;
+  right: 0;
+  height: 1px;
+  background-color: #f2f2f2;
+}
+.profile-widget .profile-widget-items .profile-widget-item {
+  flex: 1;
+  text-align: center;
+  border-right: 1px solid #f2f2f2;
+  padding: 10px 0;
+}
+.profile-widget .profile-widget-items .profile-widget-item:last-child {
+  border-right: none;
+}
+.profile-widget .profile-widget-items .profile-widget-item .profile-widget-item-label {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #34395e;
+}
+.profile-widget .profile-widget-items .profile-widget-item .profile-widget-item-value {
+  color: #000;
+  font-weight: 600;
+  font-size: 16px;
+}
+.profile-widget .profile-widget-description {
+  padding: 20px;
+  line-height: 26px;
+}
+.profile-widget .profile-widget-description .profile-widget-name {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
 
-    $('#img').attr("src", '');
-    $('#status').val('');
-    $('#caption').val('');
-    $('#job').val('');
-    $('#name').val('');
-    $('#id').val('');
-    $('#banner').prop('required', true);
-});
-
-//ajax start
-
-function edit(edit) {
-    var id = edit;
-
-    $('#loading').show(0);
-    $('#ganti-pass').hide(0);
-    $('#isi').hide(0);
-    $('.add').hide(0);
-    $('.modal-title').html('Edit <?= ucfirst($page) ?>');
-    $('#form').attr('action', '<?= base_url() ?>/admin/profile/edit');
-
-    $.ajax({
-        type: "GET",
-        url: "<?= base_url('/admin/api/profile/read') ?>/" + id,
-        dataType: "JSON",
-        success: function(data) {
-            if (data.error == null) {
-                $('#img').attr("src", '<?php echo base_url(); ?>' + '/media/profile/' + data.result.image);
-                $('#status').val(data.result.status);
-                $('#caption').val(data.result.deskription);
-                $('#job').val(data.result.job);
-                $('#name').val(data.result.name);
-                $('#id').val(data.result.id);
-                $('#banner').prop('required', false);
-            }
-        }
-    }).done(function() {
-        setTimeout(function() {
-            $("#loading").fadeOut(300);
-            $('#isi').delay(300).show(1000);
-        }, 500);
-    });
-};
-
-$(document).ready(function() {
-    myTable = $('#dataTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '<?= base_url() ?>/admin/api/profile'
-        },
-        columns: [{
-                data: 'id',
-                name: 'ID Profile'
-            },
-            {
-                data: 'image',
-                name: 'Profil'
-            },
-            {
-                data: 'name',
-                name: 'Name'
-            },
-            {
-                data: 'content',
-                name: 'Description'
-            },
-            {
-                data: 'job',
-                name: 'Job'
-            },
-            {
-                data: 'created_at',
-                name: 'Created_at'
-            },
-            {
-                data: 'status',
-                name: 'Status'
-            },
-            {
-                data: 'action',
-                name: 'action'
-            }
-        ],
-        order: [
-            [0, "asc"]
-        ]
-    });
-
-})
-</script>
+@media (max-width: 575.98px) {
+  .profile-widget .profile-widget-picture {
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin: 40px 0;
+    float: none;
+  }
+  .profile-widget .profile-widget-items .profile-widget-item {
+    border-top: 1px solid #f2f2f2;
+  }
+}
+</style>
 <?= $this->endSection() ?>
