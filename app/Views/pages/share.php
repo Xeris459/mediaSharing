@@ -45,7 +45,7 @@
                     <div class="col-5 d-flex flex-column">
                         <a href='' id="singleDownloadModal" target='_blank' class='dropdown-item'><i class='fas fa-download text-muted p-2'></i> <span>Download</span></a>
                         <button onclick='modalAddButton(this)' class='dropdown-item' id="modalSelected" data-id=""><i class='fas fa-check text-muted p-2'></i> <span>Select</span></button>
-                        <button onclick='shareLinks(this)' class='dropdown-item' id="shareButton" data-id=""><i class='fas fa-share text-muted p-2'></i> <span>Share via link</span></button>
+                        <button onclick='shareLinks(this)' class='dropdown-item' id="shareButton"  data-id=""><i class='fas fa-share text-muted p-2'></i> <span>Share via link</span></button>
 
                         <hr class="bg-secondary">
 

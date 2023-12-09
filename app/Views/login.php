@@ -54,6 +54,11 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome!!</h1>
                                         
+                                        <?php if(session()->getFlashdata('error')) : ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                <?= session()->getFlashdata('error') ?>
+                                            </div
+                                        <?php endif ?>
                                     </div>
                                     <form action="<?= route_to('login') ?>" method="post" class="user">
                                         <?= csrf_field(); ?>
@@ -80,6 +85,7 @@
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

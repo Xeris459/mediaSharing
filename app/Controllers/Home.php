@@ -27,7 +27,8 @@ class Home extends BaseController
             "images" => $images,
             "totalImage" => $totalImage,
             "category" => $category,
-            'imagePerPage' => $this->perPage
+            'imagePerPage' => $this->perPage,
+            'searchUrl' => site_url('/search'),
         ]);
     }
 
@@ -128,24 +129,33 @@ class Home extends BaseController
         $images = $modelImage
                     ->select('images.*, category.title as category_name, users.username as username')
                     ->join('category', 'category.id = images.category_id')
-                    ->join('users', 'users.id = images.user_id')
-                    ->whereIn('category.title', $category)
-                    ->like('file_name', $keyword)
+                    ->join('users', 'users.id = images.user_id');
+
+                    if(!empty($category)) $images->whereIn('category.title', $category);
+                    
+                    $images = $images->like('file_name', $keyword)
+                    ->orLike('description', $keyword)
+                    ->orLike('category.title', $keyword)
                     ->limit($this->perPage)
                     ->find();
+
         $totalImage = $modelImage->join('category', 'category.id = images.category_id')
                                 ->join('users', 'users.id = images.user_id')
                                 ->like('file_name', $keyword)
-                                ->whereIn('category.title', $category)
-                                ->countAllResults();
-        $category = $modelCategory->findAll();
+                                ->orLike('description', $keyword)
+                                ->orLike('category.title', $keyword);
+                                if(!empty($category)) $totalImage->whereIn('category.title', $category);
+                                $totalImage = $totalImage->countAllResults();
 
+        $category = $modelCategory->findAll();
+                    // dd($category);
         return view('pages/gallery', [
             "title" => "Gallery",
             "images" => $images,
             "totalImage" => $totalImage,
             "category" => $category,
-            'imagePerPage' => $this->perPage
+            'imagePerPage' => $this->perPage,
+            'searchUrl' => site_url('/search'),
         ]);
     }
 }

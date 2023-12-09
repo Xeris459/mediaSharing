@@ -40,7 +40,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <form action="<?= site_url('search') ?>" method="get" class="d-flex">
+            <form action="<?= $searchUrl ?>" method="get" class="d-flex">
                 <input class="form-control me-2" id="search" name="keyword" type="search" placeholder="Quick Search" aria-label="Search">
                 <button class="btn btn-secondary me-2" data-toggle="modal" data-target="#exampleModal" type="button">Filter</button>
                 <button class="btn btn-success" type="submit">Search</button>
@@ -71,6 +71,14 @@
                 </div>
             </form>
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <div class="nav-link">
+                        <button class="btn btn-outline-light" style='display: none' id="shareMultipleButton" type="submit">
+                            Share
+                            <i class="fa-solid fa-link"></i>
+                        </button>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <div class="nav-link">
                         <button class="btn btn-outline-light disabled" id="downloadMultipleButton" type="submit">

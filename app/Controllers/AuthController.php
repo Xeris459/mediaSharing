@@ -28,7 +28,11 @@ class AuthController extends BaseController
         if (! $loginAttempt->isOK()) {
             return redirect()->back()->with('error', $loginAttempt->reason());
         } else {
-            return redirect()->to('/dashboard');
+            if(auth()->user()->inGroup('admin')){
+                return redirect()->to('/dashboard');
+            } else {
+                return redirect()->to('/');
+            }
         }
     }
 }

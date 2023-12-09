@@ -7,6 +7,9 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('search', 'Home::search');
+$routes->post('share', 'ShareController::store');
+$routes->get('share/(:segment)', 'ShareController::show/$1');
+$routes->get('share/(:segment)/search', 'ShareController::search/$1');
 $routes->get('load_more', 'Home::loadMore');
 $routes->group('', ['filter' => "session" ], function ($routes) {
     $routes->get('download/(:num)', 'Home::download/$1');

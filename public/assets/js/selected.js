@@ -3,7 +3,99 @@ let selected = [];
 $('#downloadMultipleButton').click(function() {
     const ids = selected.join(',');
     window.open(window.location.origin + `/downloadMultiple?ids=${ids}&random=${(Math.random() + 1).toString(36).substring(2)}`, '_blank');
+});
 
+function shareLinks(el) {
+    buttonSelect = $(el);
+    const id = buttonSelect.data('id');
+
+    $.ajax({
+        type: "POST",
+        url: window.location.origin + `/share`,
+        data: {images: [id]},
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            Swal.fire({
+                title: 'Success',
+                html: `
+                    <p>Share link: <a href="${response.link}" target="_blank">${response.link}</a></p>
+                `,
+                icon: 'success',
+                confirmButtonText: 'Copy link to clipboard and close', 
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigator.clipboard.writeText(response.link);
+                    Swal.fire(
+                        'Copied!',
+                        'Your link has been copied to clipboard.',
+                        'success'
+                    )
+                }
+            })
+        },
+        beforeSend: function (xhr) {
+            Swal.fire({
+                title: 'Loading...',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            })
+        },
+        error: function (error) {
+            console.log(error)
+            // Swal.close();
+        }
+    });
+}
+
+$('#shareMultipleButton').click(function() {
+    const ids = selected.join(',');
+    
+    $.ajax({
+        type: "POST",
+        url: window.location.origin + `/share`,
+        data: {images: selected},
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            Swal.fire({
+                title: 'Success',
+                html: `
+                    <p>Share link: <a href="${response.link}" target="_blank">${response.link}</a></p>
+                `,
+                icon: 'success',
+                confirmButtonText: 'Copy link to clipboard and close', 
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigator.clipboard.writeText(response.link);
+                    Swal.fire(
+                        'Copied!',
+                        'Your link has been copied to clipboard.',
+                        'success'
+                    )
+                }
+            })
+        },
+        beforeSend: function (xhr) {
+            Swal.fire({
+                title: 'Loading...',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            })
+        },
+        error: function (error) {
+            console.log(error)
+            // Swal.close();
+        }
+    });
 });
 
 $('.dropdown-toggle').click(function() {
@@ -69,6 +161,7 @@ function showModal(el) {
     const index = selected.indexOf(id);
 
     let buttonSelect = $('#modalSelected');
+    let shareButton = $('#shareButton');
     if (index > -1) {
         buttonSelect.find('i').removeClass('fa-plus').addClass('fa-check');
         buttonSelect.addClass('bg-success text-light');
@@ -78,6 +171,7 @@ function showModal(el) {
     }
     
     buttonSelect.data('id', id);
+    shareButton.data('id', id);
 
     $('#singleDownloadModal').attr('href', window.location.origin + `/download/${id}`);
     $('#myModal').modal('show');
@@ -105,8 +199,10 @@ function addToDownload(id, el) {
 function countSelected() {
     if(selected.length == 0) {
         $('#downloadMultipleButton').addClass('disabled');
+        $('#shareMultipleButton').hide();
     } else {
         $('#downloadMultipleButton').removeClass('disabled');
+        $('#shareMultipleButton').show();
     }
 
     $('#downloadMultipleButton').html(`(${selected.length}) Download <i class="fa-solid fa-arrow-down"></i>`)
@@ -199,7 +295,7 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(window.location.search);
     const categoryParam = urlParams.getAll('category[]');
     const searchParam = urlParams.get('keyword');
-    console.log(searchParam)
+
     if(categoryParam) {
         $('.category').each(function() {
             const value = $(this).val();
